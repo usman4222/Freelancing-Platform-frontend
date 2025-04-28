@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import SearchInterface from "./Hero_components/Input";
 import SectionWrapper from "@/components/SectionWrapper";
-import bgImage1 from "../../../../assets/banner1.jpg"
+import bgImage1 from "../../../../assets/b1.jpg"
 import bgImage2 from "../../../../assets/banner2.jpg"
 import bgImage3 from "../../../../assets/banner3.jpg"
 import bgImage4 from "../../../../assets/banner4.jpg"
