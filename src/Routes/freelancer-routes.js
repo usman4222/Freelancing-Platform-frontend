@@ -13,7 +13,7 @@ import GigDetail from "@/Pages/Freelancers/GigDetail";
 import MyServices from "@/Pages/Freelancers/MyServices";
 import Proposals from "@/Pages/Freelancers/Proposal";
 
-import { Briefcase, FilePlus2, FileText, Heart, Icon, Lock, Trash, Verified } from "lucide-react";
+import { Briefcase, FilePlus2, FileText, Heart, Icon, Lock, SquareChartGantt, Trash, UserPen, Verified } from "lucide-react";
 
 export const freelancerRoutes = [
   {
@@ -21,7 +21,7 @@ export const freelancerRoutes = [
     element: Freelancer_Dashboard,
     isLayout: true,
     isProtected: true,
-    // Icon: SquareChartGantt,
+    Icon: SquareChartGantt,
     title: "Dashboard",
   },
   {
@@ -29,7 +29,7 @@ export const freelancerRoutes = [
     element: EditProfile,
     isLayout: true,
     isProtected: true,
-    // Icon: UserPen,
+    Icon: UserPen,
     title: "Edit Profile",
   },
  
