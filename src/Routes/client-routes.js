@@ -12,7 +12,7 @@ import ManageProjects from "@/Pages/Client/myProjects";
 import EditProfileForm from "@/Pages/Client/profile";
 import Services from "@/Pages/Client/Services";
 import Test from "@/Pages/Global/Test";
-import { Cast, FilePlus2, Home,  LockKeyholeOpen,  SquareChartGantt,  Trash2,  UserCircle, VerifiedIcon, WalletCards, } from "lucide-react";
+import { Cast, FilePlus2, Home,  LockKeyholeOpen,  SquareChartGantt,  Trash2,  VerifiedIcon, WalletCards, } from "lucide-react";
 
 export const clientRoutes = [
   {
@@ -29,7 +29,7 @@ export const clientRoutes = [
     element: EditProfileForm,
     isLayout: true,
     isProtected: true,
-    Icon: UserCircle,
+    // Icon: UserPen,
     title: "Edit Profile",
   },
   {
