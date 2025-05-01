@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer"
 import SectionWrapper from "@/components/SectionWrapper"
 import { Button } from "@/components/ui/button"
 import { MoveUpRight } from 'lucide-react'
+import bgImage4 from "@/assets/banner3.jpg"
 
 const FadeInWhenVisible = ({ children, delay = 0, duration = 0.5 }) => {
   const controls = useAnimation()
@@ -36,18 +37,32 @@ const FadeInWhenVisible = ({ children, delay = 0, duration = 0.5 }) => {
 
 function TalentedFreelancerComponent() {
   return (
+
+
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="mt-36 bg-[#D2D6E2] font-proxima overflow-hidden"
+      className="flex items-center font-proxima overflow-hidden px-20 py-10  bg-herobackground" // Parent card
     >
-      <SectionWrapper className="flex justify-between items-center relative px-10 md:px-20 ">
+      {/* Child div for the background image */}
+      <motion.div
+        className="w-full h-full grayscale hover:grayscale-0 transition-all duration-500 rounded-2xl py-10"
+        style={{
+          backgroundImage: `url(${bgImage4})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        whileHover={{
+          scale: 1.02,  // Only scales the background div, not the parent card
+          transition: { duration: 0.3 }
+        }}
+      >
         <div className="flex flex-col justify-center lg:items-start md:items-start items-center w-full lg:w-1/2">
           <FadeInWhenVisible>
-            <div className="lg:w-[540px] lg:text-left md:text-left text-center">
+            <div className="lg:w-[540px] lg:text-left md:text-left text-center px-10 py-16">
               <motion.h2
-                className="text-black lg:text-5xl md:text-xl text-lg "
+                className="text-white lg:text-5xl md:text-xl text-lg "
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -55,7 +70,7 @@ function TalentedFreelancerComponent() {
                 With talented freelancers do more work.
               </motion.h2>
               <motion.p
-                className="text-black mt-5 text-[14px] letter-spacing: -0.025em"
+                className="text-white mt-5 text-[14px] letter-spacing: -0.025em"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -65,13 +80,13 @@ function TalentedFreelancerComponent() {
               </motion.p>
             </div>
           </FadeInWhenVisible>
-          <div className="flex lg:flex-row md:flex-col flex-col lg:gap-5 gap-5 mt-10">
+          <div className="flex lg:flex-row md:flex-col flex-col lg:gap-5 gap-5 mt-10 px-10">
             <FadeInWhenVisible delay={0.6}>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   className="bg-primary-custom/90 hover:bg-primary-custom px-4 py-2"
                   size={"lg"}
-                  
+
                 >
                   Find Work <MoveUpRight className="" />
                 </Button>
@@ -90,24 +105,9 @@ function TalentedFreelancerComponent() {
             </FadeInWhenVisible>
           </div>
         </div>
-        <motion.div
-          className="lg:block hidden "
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <motion.img
-            src="/assets/images/Landingpage/h16-1.webp"
-            alt="Talented Freelancers"
-            className="w-full h-auto"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.div>
-      </SectionWrapper>
+      </motion.div>
     </motion.div>
   )
 }
 
 export default TalentedFreelancerComponent
-
