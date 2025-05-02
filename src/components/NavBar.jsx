@@ -41,7 +41,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { URLS } from "@/config/config";
-
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
+import { store } from "@/store/store";
+// import { useAppSelector } from '@/app/hooks'
 
 function NavBar() {
   const [isExploreDropdownOpen, setIsExploreDropdownOpen] = useState(false);
@@ -56,6 +59,25 @@ function NavBar() {
   const [activeTab, setActiveTab] = useState("/");
   const dropdownRef = useRef(null);
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.freelancer);
+
+  console.log("currentUser,currentUser", currentUser);
+  console.log("User,", currentUser);
+
+
+  const handleLogout = () => {
+    // Dispatch the LOGOUT action
+    dispatch(LOGOUT());
+
+    // Optionally, you can also clear localStorage or sessionStorage if you're storing user info
+    // localStorage.removeItem("user"); // If you're storing in localStorage
+
+    // Redirect to login or home page
+    // For example, using react-router-dom:
+    // history.push("/login");
+  };
+
 
   useEffect(() => {
     setActiveTab(location.pathname);
@@ -250,50 +272,60 @@ function NavBar() {
           </ul>
           <div className="flex gap-8 justify-between items-center">
             <Search size={20} />
-            <div>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none">
-                  <Button className="outline-none bg-slate-300 text-black hover:bg-slate-300 hover:text-black">
-                    <BellRing size={20} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64  text-center">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup className="text-lg">
-                    <DropdownMenuItem className="py-2 text-lg "><House />Dashboard</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg"> <Contact />Profile</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg"><BadgeCheck />Verify</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">    <SquarePlus />Project Submission</DropdownMenuItem>
+            {currentUser ? (
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="outline-none">
+                    <Button className="outline-none bg-slate-300 text-black hover:bg-slate-300 hover:text-black">
+                      <BellRing size={20} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64  text-center">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="py-2 text-lg">My Project</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Bought Services</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Masseges</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Meeting</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">My Jobs</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Job Applicants</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Artificial Acount</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Favourite</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Job Submission</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Delete Profile</DropdownMenuItem>
-                    <DropdownMenuItem className="py-2 text-lg">Change Password</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="py-2 text-lg">Log out</DropdownMenuItem>
-                    <DropdownMenuItem></DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <Button size={"lg"} variant="link" className="p-0">
-              <Link to={URLS.AUTH.LOGIN}>Login</Link>
-            </Button>
-            <Button
-              size={"lg"}
-              className="rounded-md bg-primary-custom hover:bg-primary-custom"
-            >
-              <Link to={URLS.AUTH.SIGNUP}>Sign Up</Link>
-            </Button>
+                    <DropdownMenuGroup className="text-lg">
+                      <DropdownMenuItem className="py-2 text-lg "><House />Dashboard</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg"> <Contact />Profile</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg"><BadgeCheck />Verify</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">    <SquarePlus />Project Submission</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="py-2 text-lg">My Project</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Bought Services</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Masseges</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Meeting</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">My Jobs</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Job Applicants</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Artificial Acount</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Favourite</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Job Submission</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Delete Profile</DropdownMenuItem>
+                      <DropdownMenuItem className="py-2 text-lg">Change Password</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="py-2 text-lg"
+                        onClick={handleLogout} 
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                      <DropdownMenuItem></DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <>
+                <Button size={"lg"} variant="link" className="p-0">
+                  <Link to={URLS.AUTH.LOGIN}>Login</Link>
+                </Button>
+                <Button
+                  size={"lg"}
+                  className="rounded-md bg-primary-custom hover:bg-primary-custom"
+                >
+                  <Link to={URLS.AUTH.SIGNUP}>Sign Up</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
         <div className="flex gap-4 items-center lg:hidden">
@@ -318,9 +350,8 @@ function NavBar() {
                         Categories
                         <ChevronDown
                           size={20}
-                          className={`transform transition-transform ${
-                            mobileDropdowns.categories ? "rotate-180" : ""
-                          }`}
+                          className={`transform transition-transform ${mobileDropdowns.categories ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {mobileDropdowns.categories && (
@@ -329,11 +360,10 @@ function NavBar() {
                             <Link
                               key={category.name}
                               to={category.to}
-                              className={`flex items-center space-x-2 p-2  rounded-md  ${
-                                activeTab === category.to
-                                  ? "text-white bg-primary-custom  font-semibold"
-                                  : ""
-                              }`}
+                              className={`flex items-center space-x-2 p-2  rounded-md  ${activeTab === category.to
+                                ? "text-white bg-primary-custom  font-semibold"
+                                : ""
+                                }`}
                               onClick={() => handleTabClick(category.to)}
                             >
                               {category.icon}
@@ -345,11 +375,10 @@ function NavBar() {
                     </div>
                     <Link
                       to={URLS.BLOG.INDEX}
-                      className={`p-2 rounded-md  ${
-                        activeTab === "/blogs"
-                          ? "text-white bg-primary-custom font-semibold"
-                          : ""
-                      }`}
+                      className={`p-2 rounded-md  ${activeTab === "/blogs"
+                        ? "text-white bg-primary-custom font-semibold"
+                        : ""
+                        }`}
                       onClick={() => handleTabClick("/blogs")}
                     >
                       Blogs
@@ -362,9 +391,8 @@ function NavBar() {
                         Explore
                         <ChevronDown
                           size={20}
-                          className={`transform transition-transform ${
-                            mobileDropdowns.explore ? "rotate-180" : ""
-                          }`}
+                          className={`transform transition-transform ${mobileDropdowns.explore ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {mobileDropdowns.explore && (
@@ -373,11 +401,10 @@ function NavBar() {
                             <Link
                               key={link.to}
                               to={link.to}
-                              className={`block p-2 rounded-md  ${
-                                activeTab === link.to
-                                  ? "text-white bg-primary-custom font-semibold"
-                                  : ""
-                              }`}
+                              className={`block p-2 rounded-md  ${activeTab === link.to
+                                ? "text-white bg-primary-custom font-semibold"
+                                : ""
+                                }`}
                               onClick={() => handleTabClick(link.to)}
                             >
                               {link.name}
@@ -394,9 +421,8 @@ function NavBar() {
                         Pages
                         <ChevronDown
                           size={20}
-                          className={`transform transition-transform ${
-                            mobileDropdowns.pages ? "rotate-180" : ""
-                          }`}
+                          className={`transform transition-transform ${mobileDropdowns.pages ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {mobileDropdowns.pages && (
@@ -405,11 +431,10 @@ function NavBar() {
                             <Link
                               key={link.to}
                               to={link.to}
-                              className={`block p-2 rounded-md  ${
-                                activeTab === link.to
-                                  ? "text-white bg-primary-custom font-semibold"
-                                  : ""
-                              }`}
+                              className={`block p-2 rounded-md  ${activeTab === link.to
+                                ? "text-white bg-primary-custom font-semibold"
+                                : ""
+                                }`}
                               onClick={() => handleTabClick(link.to)}
                             >
                               {link.label}
